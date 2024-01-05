@@ -8,11 +8,6 @@ input.addEventListener('keyup', event => {
 
   fetch(apiUrl)
     .then(response => response.json())
-      // if (response.status === 200) {
-      //   console.log(response.json())
-      // } else {
-      //   results.innerHTML = 'no words found'
-      // }
     .then(data => {
       console.log(data)
       if (data.found !== false) {
