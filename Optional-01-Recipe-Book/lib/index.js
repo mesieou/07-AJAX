@@ -5,16 +5,18 @@ const recipeTemplate = document.querySelector('#recipe-template');
 const recipesContainer = document.querySelector('#recipes-container');
 const favouritesContainer = document.querySelector('#favourites-container');
 
+const addBookmark = (event) => {
+  event.preventDefault();
+  event.currentTarget.classList.remove('fa-bookmark')
+  const recipe = event.currentTarget.parentNode.parentNode;
+  favouritesContainer.appendChild(recipe);
+}
+
 const listenForBookmarks = () => {
   const bookmarksElement = document.querySelectorAll('.fa-bookmark')
   const bookmarks = Array.from(bookmarksElement);
   bookmarks.forEach( bookmark => {
-    bookmark.addEventListener('click', event => {
-      event.preventDefault();
-      event.currentTarget.classList.remove('fa-bookmark')
-      const recipe = event.currentTarget.parentNode.parentNode;
-      favouritesContainer.appendChild(recipe);
-    });
+    bookmark.addEventListener('click', event => addBookmark(event));
   });
 }
 
