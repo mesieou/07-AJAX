@@ -4,9 +4,19 @@ const searchInput = document.querySelector('#search-input');
 const recipeTemplate = document.querySelector('#recipe-template');
 const recipesContainer = document.querySelector('#recipes-container');
 const favouritesContainer = document.querySelector('#favourites-container');
-const bookmarksElement = document.querySelectorAll('.fa-bookmark')
 
-const bookmarks = Array.from(bookmarksElement);
+const listenForBookmarks = () => {
+  const bookmarksElement = document.querySelectorAll('.fa-bookmark')
+  const bookmarks = Array.from(bookmarksElement);
+  bookmarks.forEach( bookmark => {
+    bookmark.addEventListener('click', event => {
+      event.preventDefault();
+      event.currentTarget.classList.remove('fa-bookmark')
+      const recipe = event.currentTarget.parentNode.parentNode;
+      favouritesContainer.appendChild(recipe);
+    });
+  });
+}
 
 const insertMeals = (data, container) => {
   recipesContainer.innerHTML = ''
@@ -19,12 +29,6 @@ const insertMeals = (data, container) => {
   searchInput.value = ''
 }
 
-const checkForBookmarksChecked = () => {
-  bookmarks.forEach( bookmark => {
-    bookmark.addEventListener('click', event => console.log(event))
-  });
-}
-
 const checkMealsExist = (data) => {
   if (data.meals == null) {
     alert("no results")
@@ -32,7 +36,7 @@ const checkMealsExist = (data) => {
     recipesContainer.innerHTML = ''
   } else {
     insertMeals(data, recipesContainer)
-    checkForBookmarksChecked()
+    listenForBookmarks()
   }
 }
 
