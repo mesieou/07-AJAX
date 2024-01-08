@@ -6,29 +6,22 @@ const favouritesContainer = document.querySelector('#favourites-container');
 
 let recipes = [];
 
-const insertRecipes = (recipes, container) => {
-  recipes.forEach(recipe => {
-    container.innerHTML += `<li>${recipe.meal}</li>`
+const insertMeals = (data, container) => {
+  data.meals.forEach(meal => {
+    const clone = recipeTemplate.content.cloneNode(true);
+    clone.querySelector('img').src = meal.strMealThumb;
+    clone.querySelector('h6').textContent = meal.strMeal;
+    recipesContainer.appendChild(clone);
   });
 }
 
 const fetchAndInsert = () => {
   const searchInput = document.querySelector('#search-input').value;
-
-  console.log(searchInput)
   const newUrl = `${url}${searchInput}`
-  console.log(newUrl)
 
-  fetch(url)
+  fetch(newUrl)
   .then(response => response.json())
-  .then(data => {
-    data.meals.forEach( meal => {
-      recipes.push({ meal: meal.strMeal, image: meal.strMealThumb })
-    });
-    insertRecipes(recipes, recipesContainer)
-  });
-
-
+  .then(data => insertMeals(data, recipesContainer));
 }
 
 searchButton.addEventListener("click", fetchAndInsert)
